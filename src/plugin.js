@@ -44,7 +44,7 @@ const getProxiedResponse = require('./core/proxy');
  */
 class PuppeteerPageProxyPlugin extends PuppeteerExtraPlugin {
     constructor(proxyUrl, opts = {}) {
-        super({ ...opts, proxyUrl });
+        super(typeof proxyUrl === 'string' ? { ...opts, proxyUrl } : { ...proxyUrl });
 
         this.proxyCfgMap = new WeakMap();
         this.reqHdlRegSet = new WeakSet();
@@ -182,7 +182,8 @@ class PuppeteerPageProxyPlugin extends PuppeteerExtraPlugin {
     }
 }
 
-module.exports = function (pluginConfig) {
-    return new PuppeteerPageProxyPlugin(pluginConfig);
+module.exports = function (arg1, arg2) {
+    return new PuppeteerPageProxyPlugin(arg1, arg2);
 }
 module.exports.getProxiedResponse = getProxiedResponse;
+module.exports.PuppeteerPageProxyPlugin = PuppeteerPageProxyPlugin;
