@@ -7,12 +7,16 @@ declare module 'puppeteer' {
         useProxy: (proxyUrl: string | null, opts?: pageProxy.PuppeteerPageProxyOptions) => Promise<void>;
     }
 }
-declare module 'playwright' {
+declare module 'puppeteer-core' {
     interface Page {
         useProxy: (proxyUrl: string | null, opts?: pageProxy.PuppeteerPageProxyOptions) => Promise<void>;
     }
 }
-
+declare module 'playwright-core' {
+    interface Page {
+        useProxy: (proxyUrl: string | null, opts?: pageProxy.PuppeteerPageProxyOptions) => Promise<void>;
+    }
+}
 declare namespace pageProxy {
     export interface PuppeteerPageProxyOptions {
         onlyNavigation?: boolean;
