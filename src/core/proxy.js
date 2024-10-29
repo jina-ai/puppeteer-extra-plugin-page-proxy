@@ -9,7 +9,7 @@ const getProxiedResponse = async (request, proxy, overrides = {}) => {
         cookieJar: await cookieHandler.getCookies(),
         method: overrides.method || request.method(),
         body: overrides.postData || request.postData(),
-        headers: overrides.headers || setHeaders(request),
+        headers: { ...setHeaders(request), ...overrides.headers },
         agent: setAgent(proxy),
         responseType: "buffer",
         maxRedirects: 15,
@@ -25,7 +25,7 @@ const getProxiedResponse = async (request, proxy, overrides = {}) => {
         await cookieHandler.setCookies(setCookieHeader);
         response.headers["set-cookie"] = undefined;
     }
-    
+
     return {
         status: response.statusCode,
         headers: response.headers,

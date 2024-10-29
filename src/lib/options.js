@@ -6,18 +6,18 @@ const { SocksProxyAgent } = require("socks-proxy-agent");
 // Related: https://github.com/puppeteer/puppeteer/issues/5364
 const setHeaders = (request) => {
     const headers = {
-        ...request.headers(),
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
         "accept-encoding": "gzip, deflate, br",
-        "host": new URL(request.url()).host
+        "host": new URL(request.url()).host,
+        ...request.headers(),
     }
     if (request.isNavigationRequest()) {
-        headers["sec-fetch-mode"] = "navigate";
-        headers["sec-fetch-site"] = "none";
-        headers["sec-fetch-user"] = "?1";
+        headers["sec-fetch-mode"] ??= "navigate";
+        headers["sec-fetch-site"] ??= "none";
+        headers["sec-fetch-user"] ??= "?1";
     } else {
-        headers["sec-fetch-mode"] = "no-cors";
-        headers["sec-fetch-site"] = "same-origin";
+        headers["sec-fetch-mode"] ??= "no-cors";
+        headers["sec-fetch-site"] ??= "same-origin";
     }
     return headers;
 };

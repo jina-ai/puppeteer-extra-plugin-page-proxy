@@ -119,7 +119,10 @@ class PuppeteerPageProxyPlugin extends PuppeteerExtraPlugin {
         const {
             proxy: localProxyUrl,
             onlyNavigation: localOnlyNavigation,
-            interceptResolutionPriority: localInterceptResolutionPriority
+            interceptResolutionPriority: localInterceptResolutionPriority,
+            method,
+            headers,
+            postData,
         } = this.proxyCfgMap.get(page);
 
         const interceptResolutionPriority = localInterceptResolutionPriority || this.interceptResolutionPriority;
@@ -139,7 +142,7 @@ class PuppeteerPageProxyPlugin extends PuppeteerExtraPlugin {
             }
 
             try {
-                const respondWith = await getProxiedResponse(request, proxyUrl);
+                const respondWith = await getProxiedResponse(request, proxyUrl, { method, headers, postData });
 
                 return request.respond(respondWith, interceptResolutionPriority);
             } catch (err) {
